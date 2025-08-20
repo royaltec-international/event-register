@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ระบบเก็บข้อมูลลูกค้า - งานอีเว้นท์</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Base styles for the body, ensuring centering and padding */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #3c96c7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        /* Container for the main application, styled with shadow and rounded corners */
+        .container {
+            background-image: linear-gradient(135deg, #2e5a73 50%, #162c3b 100%);
+            border-radius: 1.5rem; /* More rounded corners */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            max-width: 900px; /* Increased max-width */
+            width: 100%;
+            padding: 2.5rem; /* More padding */
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+        /* Media query for larger screens to arrange sections side-by-side */
+        @media (min-width: 768px) {
+            .container {
+                flex-direction: row; /* Side-by-side on larger screens */
+            }
+        }
+        /* Styling for form and game sections to take equal width */
+        .form-section, .game-section {
+            flex: 1;
+            padding: 1rem;
+            max-width: 100%; /* Ensure sections don't overflow on small screens */
+            position: relative; /* Added for pointer positioning */
+        }
+        /* Form group styling for spacing */
+        .form-group {
+            margin-bottom: 1.25rem; /* Increased margin */
+        }
+        /* Label styling for form fields */
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        /* Input and select field styling */
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem; /* Increased padding */
+            border: 1px solid #d1d5db;
+            border-radius: 0.75rem; /* More rounded */
+            font-size: 1rem;
+            color: #374151;
+            transition: all 0.2s ease-in-out;
+        }
+        /* Focus styles for input and select fields */
+        .form-group input[type="text"]:focus,
+        .form-group input[type="email"]:focus,
+        .form-group input[type="tel"]:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #6366f1; /* Indigo focus color */
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.25);
+        }
+        /* Primary button styling */
+        .btn-primary {
+            background-color: #33647e; /* Indigo */
+            color: white;
+            padding: 0.85rem 1.75rem; /* More padding */
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 18px #18303d;
+            cursor: pointer;
+            width: 100%; /* Full width button */
+        }
+        /* Hover state for primary button */
+        .btn-primary:hover {
+            background-color: #74838b; /* Darker indigo */
+            transform: translateY(-2px);
+        }
+        /* Active state for primary button */
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+        /* Secondary button styling */
+        .btn-secondary {
+            background-color: #74838b; /* Light gray */
+            color: #4b5563; /* Darker gray text */
+            padding: 0.85rem 1.75rem;
+            border-radius: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 18px #18303d;
+            cursor: pointer;
+            width: 100%; /* Full width button */
+            margin-top: 1rem;
+        }
+        /* Hover state for secondary button */
+        .btn-secondary:hover {
+            background-color: #d1d5db;
+            transform: translateY(-2px);
+        }
+        /* Active state for secondary button */
+        .btn-secondary:active {
+            transform: translateY(0);
+        }
+
+        /* Spinning Wheel Styles */
+        #wheelCanvas {
+            display: block;
+            margin: 0 auto;
+            border: 10px solid #ffff9e; /* Indigo border */
+            border-radius: 50%;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 4s cubic-bezier(0.25, 0.1, 0.25, 1); /* Smooth spin transition */
+            max-width: 100%; /* Make it responsive */
+            height: auto; /* Maintain aspect ratio */
+        }
+        /* Spin button styling */
+        .spin-button {
+            background-color: #33647e; /* Red */
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 9999px; /* Fully rounded */
+            font-weight: 700;
+            font-size: 1.25rem;
+            margin-top: 1.5rem;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+            box-shadow: 0 4px 18px #18303d;
+            cursor: pointer;
+            width: 100%;
+        }
+        /* Hover state for spin button */
+        .spin-button:hover {
+            background-color: #74838b; /* Darker red */
+            transform: translateY(-3px);
+        }
+        /* Active state for spin button */
+        .spin-button:active {
+            transform: translateY(0);
+        }
+        /* Prize display styling */
+        .prize-display {
+            background-color: #ecfdf5; /* Light green */
+            color: #047857; /* Dark green text */
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-top: 1.5rem;
+            font-size: 1.125rem;
+            font-weight: 600;
+            text-align: center;
+            border: 1px solid #10b981;
+        }
+        /* Error message styling */
+        .error-message {
+            color: #ef4444; /* Red */
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+        /* Modal overlay styling */
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        /* Modal open state */
+        .modal.open {
+            opacity: 1;
+            visibility: visible;
+        }
+        /* Modal content styling */
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: translateY(-20px);
+            transition: transform 0.3s ease-in-out;
+        }
+        /* Modal content animation when opening */
+        .modal.open .modal-content {
+            transform: translateY(0);
+        }
+        /* Modal title styling */
+        .modal-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #333;
+        }
+        /* Modal message styling */
+        .modal-content p {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            color: #555;
+        }
+        /* Modal close button styling */
+        .modal-close-btn {
+            background-color: #6366f1;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        /* Hover state for modal close button */
+        .modal-close-btn:hover {
+            background-color: #4f46e5;
+        }
+        /* Checkbox group specific styling */
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem; /* Spacing between checkboxes */
+            margin-top: 0.5rem;
+        }
+        .checkbox-group label {
+            display: flex;
+            align-items: center;
+            font-weight: 400; /* Lighter font for individual checkbox labels */
+            color: #fff;
+            cursor: pointer;
+        }
+        .checkbox-group input[type="checkbox"] {
+            margin-right: 0.5rem;
+            width: auto; /* Override full width for checkboxes */
+        }
+
+        /* New pointer styles */
+        .wheel-pointer {
+            position: absolute;
+            top: 0; /* Position relative to game-section */
+            left: 50%;
+            transform: translateX(-50%); /* Center horizontally */
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-top: 30px solid #ff4d00; /* Red triangle pointing down */
+            z-index: 10; /* Ensure it's above the canvas */
+        }
+
+        /* Adjust pointer position for mobile to be above the wheel */
+        @media (max-width: 767px) {
+            .wheel-pointer {
+                top: 0; /* Adjust as needed for spacing from the top of the game section */
+            }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="formSection" class="form-section">
+            <h2 class="text-3xl font-bold text-center text-white mb-6">กรอกข้อมูลเพื่อร่วมสนุก</h2>
+            <form id="customerForm" class="space-y-4">
+                </form>
+            <button id="submitFormBtn" class="btn-primary mt-6">เริ่มเกม</button>
+            <div id="formErrorMessage" class="error-message text-center hidden"></div>
+        </div>
+
+        <div id="gameSection" class="game-section flex flex-col items-center justify-center hidden">
+            <h2 class="text-3xl font-bold text-center text-white mb-6">หมุนวงล้อลุ้นรางวัล!</h2>
+            <div class="wheel-container relative">
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                <div class="wheel-pointer"></div> </div>
+            <button id="spinWheelBtn" class="spin-button" disabled>หมุนวงล้อ!</button>
+            <div id="prizeDisplay" class="prize-display hidden"></div>
+        </div>
+    </div>
+
+    <div id="appModal" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitle"></h3>
+            <p id="modalMessage"></p>
+            <button id="modalCloseBtn" class="modal-close-btn">ตกลง</button>
+        </div>
+    </div>
+
+    <script>
+        // Configuration for form fields and wheel segments
+        // You can modify these values to customize your event application
+        const APP_CONFIG = {
+            // Form field settings
+            formFields: [
+                { id: 'firstName', label: 'ชื่อ', type: 'text', required: true, placeholder: 'ป้อนชื่อของคุณ' },
+                { id: 'lastName', label: 'นามสกุล', type: 'text', required: true, placeholder: 'ป้อนนามสกุลของคุณ' },
+                { id: 'email', label: 'อีเมล', type: 'email', required: true, placeholder: 'ป้อนอีเมลของคุณ' },
+                { id: 'phoneNumber', label: 'เบอร์โทร', type: 'tel', required: true, placeholder: 'ป้อนเบอร์โทรศัพท์ของคุณ' },
+                { id: 'company', label: 'บริษัท / หน่วยงาน', type: 'text', required: true, placeholder: 'ป้อนชื่อบริษัท/หน่วยงาน' },
+                { id: 'position', label: 'ตำแหน่ง', type: 'text', required: true, placeholder: 'ป้อนตำแหน่งของคุณ' },
+                {
+                    id: 'productsOfInterest',
+                    label: 'สินค้าที่สนใจ',
+                    type: 'checkboxGroup',
+                    required: true,
+                    options: ['Panduit', 'Delta', 'Allied Telesis', 'iPRO', 'Eaton', 'Newson Gale', 'Brady']
+                },
+            ],
+            // Wheel segment settings
+            // text: The text to display on the wheel segment
+            // color: The color of the segment (Hex code or color name)
+            // weight: The probability weight (all set to 1 for equal segments)
+            wheelSegments: [
+                { text: 'Brady', color: '#012169', weight: 0.5 },
+                { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
+                { text: 'Delta', color: '#0087DC', weight: 0.5 },
+                { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
+                { text: 'หมวก', color: '#a7cd89', weight: 0.5 },
+                { text: 'ตุ๊กตา', color: '#33647e', weight: 0.2 },
+                { text: 'iPRO', color: '#1C1F2A', weight: 0.5 },
+                { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 }
+                // Removed 'ไม่ได้รางวัล' segment to simplify for single play
+            ],
+            // Spin duration in milliseconds
+            spinSpeed: 3000,
+            // Minimum number of full spins before stopping
+            minSpins: 5,
+            // Google Apps Script Web App URL (replace with your deployed URL)
+            // Example: 'https://script.google.com/macros/s/YOUR_DEPLOYMENT_ID/exec'
+            googleAppsScriptUrl: 'https://script.google.com/macros/s/AKfycbxSjU9YbZaMeCwYSgcDYrT_AHdIl2XZXe0VPepOT1sdECc2CbhoIc1tiiFdOLhz9BIs/exec' // LEAVE EMPTY FOR NOW, WILL BE FILLED IN APPS SCRIPT SECTION
+        };
+
+        // UI Elements
+        const formSection = document.getElementById('formSection');
+        const gameSection = document.getElementById('gameSection');
+        const customerForm = document.getElementById('customerForm');
+        const submitFormBtn = document.getElementById('submitFormBtn');
+        const formErrorMessage = document.getElementById('formErrorMessage');
+        const wheelCanvas = document.getElementById('wheelCanvas');
+        const spinWheelBtn = document.getElementById('spinWheelBtn');
+        const prizeDisplay = document.getElementById('prizeDisplay');
+        const appModal = document.getElementById('appModal');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalMessage = document.getElementById('modalMessage');
+        const modalCloseBtn = document.getElementById('modalCloseBtn');
+
+        const ctx = wheelCanvas.getContext('2d');
+        let currentRotation = 0; // Current rotation angle of the wheel
+        let isSpinning = false; // Flag to prevent multiple spins
+        let customerData = {}; // Stores current customer's data
+
+        // Function to show a custom modal message
+        function showModal(title, message, onCloseCallback = null) {
+            modalTitle.textContent = title;
+            modalMessage.textContent = message;
+            appModal.classList.add('open'); // Show the modal
+
+            // แก้ไข Event Listener ของปุ่ม 'ตกลง' ที่นี่
+            modalCloseBtn.onclick = () => {
+                appModal.classList.remove('open'); // ซ่อน Modal
+                if (onCloseCallback) {
+                    onCloseCallback();
+                }
+            };
+        }
+
+        // ---------------------------------------------------
+        // Section 1: Form Management
+        // ---------------------------------------------------
+
+        // Dynamically generates form fields based on APP_CONFIG.formFields
+        function generateFormFields() {
+            customerForm.innerHTML = ''; // Clear existing fields
+            APP_CONFIG.formFields.forEach(field => {
+                const div = document.createElement('div');
+                div.className = 'form-group';
+
+                const label = document.createElement('label');
+                label.setAttribute('for', field.id);
+                label.textContent = field.label + (field.required ? ' *' : '');
+                div.appendChild(label);
+
+                if (field.type === 'select') {
+                    const select = document.createElement('select');
+                    select.id = field.id;
+                    select.name = field.id;
+                    select.required = field.required;
+                    field.options.forEach((optionText, index) => {
+                        const option = document.createElement('option');
+                        option.value = index === 0 ? '' : optionText; // Empty value for the first option (placeholder)
+                        option.textContent = optionText;
+                        option.disabled = index === 0; // Disable first option
+                        option.selected = index === 0; // Select first option by default
+                        option.hidden = index === 0; // Hide first option from dropdown
+                        select.appendChild(option);
+                    });
+                    div.appendChild(select);
+                } else if (field.type === 'checkboxGroup') {
+                    const checkboxDiv = document.createElement('div');
+                    checkboxDiv.className = 'checkbox-group';
+                    checkboxDiv.id = field.id; // Assign ID to the container div for easier access
+
+                    field.options.forEach(optionText => {
+                        const checkboxLabel = document.createElement('label');
+                        const checkbox = document.createElement('input');
+                        checkbox.type = 'checkbox';
+                        checkbox.name = field.id; // Use field.id as name for grouping
+                        checkbox.value = optionText;
+                        checkboxLabel.appendChild(checkbox);
+                        checkboxLabel.appendChild(document.createTextNode(optionText));
+                        checkboxDiv.appendChild(checkboxLabel);
+                    });
+                    div.appendChild(checkboxDiv);
+                }
+                else {
+                    const input = document.createElement('input');
+                    input.type = field.type;
+                    input.id = field.id;
+                    input.name = field.id;
+                    input.required = field.required;
+                    input.placeholder = field.placeholder || '';
+                    div.appendChild(input);
+                }
+                customerForm.appendChild(div);
+            });
+        }
+
+        // Validates the form inputs
+        function validateForm() {
+            let isValid = true;
+            formErrorMessage.textContent = '';
+            formErrorMessage.classList.add('hidden');
+
+            for (const field of APP_CONFIG.formFields) {
+                if (field.type === 'checkboxGroup') {
+                    const checkboxes = document.querySelectorAll(`#${field.id} input[type="checkbox"]`);
+                    const checkedCount = Array.from(checkboxes).filter(cb => cb.checked).length;
+                    if (field.required && checkedCount === 0) {
+                        isValid = false;
+                        formErrorMessage.textContent = `กรุณาเลือกอย่างน้อยหนึ่งตัวเลือกสำหรับ ${field.label}`;
+                        formErrorMessage.classList.remove('hidden');
+                        return false;
+                    }
+                } else {
+                    const inputElement = document.getElementById(field.id);
+                    if (field.required && !inputElement.value.trim()) {
+                        isValid = false;
+                        formErrorMessage.textContent = 'กรุณากรอกข้อมูลให้ครบทุกช่องที่จำเป็น';
+                        formErrorMessage.classList.remove('hidden');
+                        inputElement.focus();
+                        return false; // Exit early if validation fails
+                    }
+                    // Basic email format validation
+                    if (field.type === 'email' && inputElement.value.trim() && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(inputElement.value.trim())) {
+                        isValid = false;
+                        formErrorMessage.textContent = 'กรุณากรอกรูปแบบอีเมลให้ถูกต้อง';
+                        formErrorMessage.classList.remove('hidden');
+                        inputElement.focus();
+                        return false;
+                    }
+                    // Basic phone number validation (digits only)
+                    if (field.type === 'tel' && inputElement.value.trim() && !/^\d+$/.test(inputElement.value.trim())) {
+                        isValid = false;
+                        formErrorMessage.textContent = 'กรุณากรอกเบอร์โทรศัพท์เป็นตัวเลขเท่านั้น';
+                        formErrorMessage.classList.remove('hidden');
+                        inputElement.focus();
+                        return false;
+                    }
+                }
+            }
+            return isValid;
+        }
+
+        // Saves customer data to Google Apps Script (or localStorage as fallback)
+        async function saveCustomerData(data) {
+            if (APP_CONFIG.googleAppsScriptUrl) {
+                try {
+                    const response = await fetch(APP_CONFIG.googleAppsScriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors', // Required for Apps Script Web App
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    });
+                    // Apps Script Web App in 'no-cors' mode won't return a readable response.
+                    // Assume success if no error.
+                    console.log('Data sent to Google Apps Script.');
+                } catch (error) {
+                    console.error('Failed to send data to Google Apps Script:', error);
+                    showModal('ข้อผิดพลาด', 'ไม่สามารถบันทึกข้อมูลไปยัง Google Sheets ได้ กรุณาลองใหม่อีกครั้ง');
+                    // Fallback to localStorage if Apps Script fails (optional)
+                    let allCustomers = JSON.parse(localStorage.getItem('eventCustomers')) || [];
+                    allCustomers.push(data);
+                    localStorage.setItem('eventCustomers', JSON.stringify(allCustomers));
+                    console.log('Data saved to localStorage as fallback.');
+                }
+            } else {
+                // Fallback to localStorage if no Apps Script URL is provided
+                let allCustomers = JSON.parse(localStorage.getItem('eventCustomers')) || [];
+                allCustomers.push(data);
+                localStorage.setItem('eventCustomers', JSON.stringify(allCustomers));
+                console.log('Data saved to localStorage (no Apps Script URL provided).');
+            }
+        }
+
+        // ---------------------------------------------------
+        // Section 2: Spinning Wheel Game Management
+        // ---------------------------------------------------
+
+        // Calculates the start, end, and mid angles for each wheel segment
+        function calculateSegmentAngles() {
+            const totalWeight = APP_CONFIG.wheelSegments.reduce((sum, segment) => sum + segment.weight, 0);
+            let startAngle = 0;
+            return APP_CONFIG.wheelSegments.map(segment => {
+                const endAngle = startAngle + (segment.weight / totalWeight) * 2 * Math.PI;
+                const segmentData = {
+                    ...segment,
+                    startAngle,
+                    endAngle,
+                    midAngle: (startAngle + endAngle) / 2
+                };
+                startAngle = endAngle;
+                return segmentData;
+            });
+        }
+
+        const segments = calculateSegmentAngles();
+        // The wheelRadius should be based on the actual rendered size of the canvas,
+        // which might be dynamic due to max-width: 100%.
+        // For drawing, we'll use a fixed size for the canvas elements, and let CSS scale it.
+        // We'll calculate the radius based on the fixed width/height attributes.
+        const fixedCanvasSize = 400; // The width and height attribute of the canvas
+        const wheelRadius = fixedCanvasSize / 2 - 5; // Slightly smaller radius for border
+
+        // Draws the spinning wheel on the canvas
+        function drawWheel() {
+            ctx.clearRect(0, 0, fixedCanvasSize, fixedCanvasSize); // Clear based on fixed size
+
+            // Draw the wheel segments
+            ctx.save();
+            // Translate origin to the center of the fixed-size canvas
+            ctx.translate(fixedCanvasSize / 2, fixedCanvasSize / 2);
+            ctx.rotate(currentRotation); // Apply current rotation
+
+            segments.forEach((segment, index) => {
+                ctx.beginPath();
+                ctx.arc(0, 0, wheelRadius, segment.startAngle, segment.endAngle);
+                ctx.lineTo(0, 0);
+                ctx.closePath();
+                ctx.fillStyle = segment.color;
+                ctx.fill();
+                ctx.strokeStyle = '#18303d'; // White segment dividers
+                ctx.lineWidth = 2;
+                ctx.stroke();
+
+                // Draw text for each segment
+                ctx.save();
+                ctx.rotate(segment.midAngle);
+                ctx.textAlign = 'right';
+                ctx.fillStyle = '#ffffff'; // Text color
+                ctx.font = '25px Inter';
+                ctx.fillText(segment.text, wheelRadius * 0.9, 10); // Position text
+                ctx.restore();
+            });
+            ctx.restore();
+
+            // Draw the inner circle
+            const innerCircleRadius = wheelRadius * 0.15; // Adjust size as needed
+            const borderColor = '#ffff9e'; // Same as the outer border
+
+
+            // Add shadow to the inner circle
+            ctx.shadowColor = 'rgba(0, 0, 0, 0.5)';
+            ctx.shadowBlur = 10;
+            ctx.shadowOffsetX = 5;
+            ctx.shadowOffsetY = 5;
+
+
+            ctx.beginPath();
+            ctx.arc(fixedCanvasSize / 2, fixedCanvasSize / 2, innerCircleRadius, 0, 2 * Math.PI);
+            ctx.fillStyle = borderColor;
+            ctx.fill();
+
+
+            // Remove shadow for the border
+            ctx.shadowColor = 'transparent';
+            ctx.shadowBlur = 0;
+            ctx.shadowOffsetX = 0;
+            ctx.shadowOffsetY = 0;
+
+
+            ctx.strokeStyle = borderColor;
+            ctx.lineWidth = 5;
+            ctx.stroke();
+        }
+
+        // Initiates the wheel spin
+        function spinWheel() {
+            if (isSpinning) return; // Prevent spinning if already spinning
+            isSpinning = true;
+            spinWheelBtn.disabled = true; // Disable spin button during spin
+            prizeDisplay.classList.add('hidden'); // Hide previous prize display
+
+            const totalWeight = APP_CONFIG.wheelSegments.reduce((sum, segment) => sum + segment.weight, 0);
+            let randomValue = Math.random() * totalWeight;
+            let winningSegment = null;
+
+            // Select the winning segment based on its weight
+            let cumulativeWeight = 0;
+            for (const segment of segments) {
+                cumulativeWeight += segment.weight;
+                if (randomValue <= cumulativeWeight) {
+                    winningSegment = segment;
+                    break;
+                }
+            }
+
+            // Calculate the target angle for the wheel to stop
+            // The pointer is fixed at the top (angle 3*Math.PI/2 or -Math.PI/2 relative to standard canvas coords).
+            // Segments' midAngles are calculated from 0 (right).
+            // We want the winning segment's midAngle to align with the top pointer.
+            const pointerFixedAngle = 3 * Math.PI / 2; // Top of the wheel (270 degrees clockwise from right)
+
+            // Calculate the angle needed to bring the winning segment's midAngle to the pointer's fixed angle.
+            let angleToAlign = pointerFixedAngle - winningSegment.midAngle;
+
+            // Ensure the angle is positive and within 0 to 2*PI
+            angleToAlign = (angleToAlign % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+
+            // Add full spins to ensure it spins multiple times
+            const totalTargetRotation = (APP_CONFIG.minSpins * 2 * Math.PI) + angleToAlign + (Math.random() * (Math.PI / segments.length) - (Math.PI / (2 * segments.length)));
+            // The random offset ensures it doesn't always stop at the exact middle, adding realism.
+
+            // Apply CSS transition for smooth spinning animation
+            wheelCanvas.style.transition = `transform ${APP_CONFIG.spinSpeed / 1000}s cubic-bezier(0.25, 0.1, 0.25, 1)`;
+            wheelCanvas.style.transform = `rotate(${totalTargetRotation}rad)`;
+
+            // Actions to perform once the wheel stops spinning
+            setTimeout(() => {
+                isSpinning = false;
+                spinWheelBtn.disabled = true; // Keep spin button disabled after spin
+                prizeDisplay.textContent = `ยินดีด้วย! คุณได้รับ: ${winningSegment.text}`;
+                prizeDisplay.classList.remove('hidden'); // Show the prize
+
+                // Save the prize to the current customer's data
+                customerData.prize = winningSegment.text;
+                saveCustomerData(customerData);
+
+                // ตรวจสอบว่าผู้ใช้ได้รับรางวัลหรือไม่
+                const prizeText = winningSegment.text;
+                let modalCallback = null;
+
+                // ตรวจสอบว่าเป็นรางวัลที่ไม่ใช่ "ไม่ได้รางวัล"
+                if (prizeText !== 'ไม่ได้รางวัล') {
+                    // หากได้รับรางวัล ให้กำหนด Callback ที่จะเปิดลิงก์ LINE
+                    modalCallback = () => {
+                        window.open('https://lin.ee/1VOCxYRc', '_blank');
+                    };
+                }
+
+                // Show a modal with the prize result
+                showModal('ผลการหมุนวงล้อ', `ยินดีด้วย! คุณได้รับ: ${prizeText}`, modalCallback);
+
+                // Reset rotation for the next spin (if not reset by button)
+                currentRotation = totalTargetRotation % (2 * Math.PI);
+                wheelCanvas.style.transition = 'none'; // Remove transition for instant reset
+                wheelCanvas.style.transform = `rotate(${currentRotation}rad)`; // Snap to final position
+            }, APP_CONFIG.spinSpeed);
+        }
+
+        // ---------------------------------------------------
+        // Event Listeners and Initialization
+        // ---------------------------------------------------
+
+        // Event listener for form submission button
+        submitFormBtn.addEventListener('click', (event) => {
+            event.preventDefault(); // Prevent default form submission
+            if (validateForm()) {
+                customerData = {}; // Clear previous customer data
+                APP_CONFIG.formFields.forEach(field => {
+                    if (field.type === 'checkboxGroup') {
+                        const checkboxes = document.querySelectorAll(`#${field.id} input[type="checkbox"]:checked`);
+                        customerData[field.id] = Array.from(checkboxes).map(cb => cb.value); // Store as
+                    } else {
+                        customerData[field.id] = document.getElementById(field.id).value.trim();
+                    }
+                });
+
+                // Save the initial customer data
+                saveCustomerData(customerData);
+
+                // Show the game section and hide the form
+                formSection.classList.add('hidden');
+                gameSection.classList.remove('hidden');
+                spinWheelBtn.disabled = false; // Enable the spin button
+                prizeDisplay.classList.add('hidden'); // Hide the prize display
+            }
+        });
+
+        // Event listener for spin button
+        spinWheelBtn.addEventListener('click', () => {
+            spinWheel();
+        });
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', () => {
+            generateFormFields();
+            drawWheel();
+        });
+    </script>
+</body>
+</html>
