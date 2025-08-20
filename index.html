@@ -276,7 +276,6 @@
                 top: 0; /* Adjust as needed for spacing from the top of the game section */
             }
         }
-
     </style>
 </head>
 <body>
@@ -284,7 +283,7 @@
         <div id="formSection" class="form-section">
             <h2 class="text-3xl font-bold text-center text-white mb-6">กรอกข้อมูลเพื่อร่วมสนุก</h2>
             <form id="customerForm" class="space-y-4">
-                </form>
+            </form>
             <button id="submitFormBtn" class="btn-primary mt-6">เริ่มเกม</button>
             <div id="formErrorMessage" class="error-message text-center hidden"></div>
         </div>
@@ -664,8 +663,9 @@
                 prizeDisplay.textContent = `ยินดีด้วย! คุณได้รับ: ${winningSegment.text}`;
                 prizeDisplay.classList.remove('hidden'); // Show the prize
 
-                // Save the prize to the current customer's data
+                // **NEW: Update customerData with prize and timestamp, then save it**
                 customerData.prize = winningSegment.text;
+                customerData.timestamp = new Date().toISOString(); // Add ISO 8601 timestamp
                 saveCustomerData(customerData);
 
                 // ตรวจสอบว่าผู้ใช้ได้รับรางวัลหรือไม่
@@ -702,33 +702,25 @@
                 APP_CONFIG.formFields.forEach(field => {
                     if (field.type === 'checkboxGroup') {
                         const checkboxes = document.querySelectorAll(`#${field.id} input[type="checkbox"]:checked`);
-                        customerData[field.id] = Array.from(checkboxes).map(cb => cb.value); // Store as
+                        customerData[field.id] = Array.from(checkboxes).map(cb => cb.value).join(', '); // Store as a comma-separated string
                     } else {
                         customerData[field.id] = document.getElementById(field.id).value.trim();
                     }
                 });
 
-                // Save the initial customer data
-                saveCustomerData(customerData);
-
-                // Show the game section and hide the form
+                // **MODIFIED: Do not save data here. Only switch to the game section.**
                 formSection.classList.add('hidden');
                 gameSection.classList.remove('hidden');
-                spinWheelBtn.disabled = false; // Enable the spin button
-                prizeDisplay.classList.add('hidden'); // Hide the prize display
+                spinWheelBtn.disabled = false; // Enable spin button
             }
         });
 
-        // Event listener for spin button
-        spinWheelBtn.addEventListener('click', () => {
-            spinWheel();
-        });
+        // Event listener for spin wheel button
+        spinWheelBtn.addEventListener('click', spinWheel);
 
-        // Initialize the app
-        document.addEventListener('DOMContentLoaded', () => {
-            generateFormFields();
-            drawWheel();
-        });
+        // Initial setup
+        generateFormFields();
+        drawWheel();
     </script>
 </body>
 </html>
