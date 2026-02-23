@@ -14,7 +14,7 @@ const WHEEL_CONFIG = {
   // ----------------------------------------------------------
   //  Logo URL — ใส่ link รูปภาพ logo บริษัทที่นี่
   // ----------------------------------------------------------
-  logoUrl: "Royaltec_long-Logo -2 blue 2025-02.png",
+  logoUrl: "https://github.com/royaltec-international/event-register/blob/65612e772fd02e01c96053ec619be1e8638c623c/Royaltec_long-Logo%20-2%20blue%202025-02.png",
   logoAlt: "Company Logo",
 
   // ----------------------------------------------------------
