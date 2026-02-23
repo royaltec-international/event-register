@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lucky Draw - Belden</title>
+    <title>Belden Lucky Draw</title>
     <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <div class="logo-container">
-            <img src="YOUR_LOGO_URL_HERE" alt="Company Logo" id="main-logo">
+        <div class="logo-box">
+            <img src="YOUR_LOGO_URL_HERE" alt="Company Logo" onerror="this.style.display='none'">
         </div>
 
         <section id="form-section">
-            <h2>ลงทะเบียนร่วมสนุก</h2>
+            <h2>ลงทะเบียนลุ้นโชค</h2>
             <form id="reg-form">
                 <input type="text" id="firstName" placeholder="ชื่อ" required>
                 <input type="text" id="lastName" placeholder="นามสกุล" required>
@@ -23,33 +22,29 @@
                 <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์" required>
                 <input type="text" id="company" placeholder="ชื่อบริษัท" required>
                 <input type="text" id="position" placeholder="ตำแหน่ง" required>
-                <button type="submit" class="btn-primary">เข้าสู่หน้าหมุนวงล้อ</button>
+                <button type="submit" class="btn-gold-submit">ไปที่วงล้อ</button>
             </form>
         </section>
 
         <section id="game-section" class="hidden">
             <div class="wheel-main-container">
                 <div class="wheel-pointer-gold"></div>
-        
                 <div class="wheel-wrapper">
                     <canvas id="wheelCanvas" width="440" height="440"></canvas>
-                    <div id="spin-btn" class="center-star-btn">
-                        < span>SPIN</span>
-                    </div>
+                    <div id="spin-btn" class="center-star-btn">SPIN</div>
                 </div>
             </div>
         </section>
 
         <section id="result-section" class="hidden">
-            <div class="prize-card">
+            <div class="result-card">
                 <h3>ยินดีด้วย! คุณได้รับ</h3>
-                <h1 id="prize-display">...</h1>
-                <p class="staff-note">โปรดแสดงหน้าจอนี้ให้ทีมงานเพื่อรับของรางวัล</p>
-                <button id="finish-btn" class="btn-primary">เสร็จสิ้น</button>
+                <h1 id="prize-name">...</h1>
+                <p>โปรดแจ้งทีมงานเพื่อรับรางวัล</p>
+                <button id="finish-btn" class="btn-gold-submit">เสร็จสิ้น (ไปหน้า LINE)</button>
             </div>
         </section>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
