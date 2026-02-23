@@ -1,50 +1,234 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Belden Lucky Draw</title>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ลุ้นรางวัล — หมุนวงล้อ</title>
+
+  <!-- Kanit Font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700;900&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <div class="logo-box">
-            <img src="YOUR_LOGO_URL_HERE" alt="Company Logo" onerror="this.style.display='none'">
+
+  <!-- Confetti overlay -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- Toast Notification -->
+  <div id="toast" class="toast" role="alert" aria-live="polite"></div>
+
+  <!-- App Root -->
+  <div id="app">
+
+    <!-- ======================================================
+         PAGE 1: ลงทะเบียน
+         ====================================================== -->
+    <section id="form-section" class="page-section active" aria-label="หน้าลงทะเบียน">
+      <div class="card">
+
+        <!-- Logo -->
+        <div class="logo-wrapper">
+          <img
+            id="logo-img"
+            class="logo-img"
+            src=""
+            alt="Company Logo"
+            onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='flex';"
+          />
+          <div id="logo-fallback" class="logo-placeholder" style="display:none;">
+            🏢 Company Logo
+          </div>
         </div>
 
-        <section id="form-section">
-            <h2>ลงทะเบียนลุ้นโชค</h2>
-            <form id="reg-form">
-                <input type="text" id="firstName" placeholder="ชื่อ" required>
-                <input type="text" id="lastName" placeholder="นามสกุล" required>
-                <input type="email" id="email" placeholder="อีเมล" required>
-                <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์" required>
-                <input type="text" id="company" placeholder="ชื่อบริษัท" required>
-                <input type="text" id="position" placeholder="ตำแหน่ง" required>
-                <button type="submit" class="btn-gold-submit">ไปที่วงล้อ</button>
-            </form>
-        </section>
+        <!-- Heading -->
+        <h1 class="section-title">ลงทะเบียนรับสิทธิ์</h1>
+        <div class="accent-line"></div>
+        <p class="section-subtitle">กรอกข้อมูลให้ครบถ้วน เพื่อร่วมลุ้นรับของรางวัล</p>
 
-        <section id="game-section" class="hidden">
-            <div class="wheel-main-container">
-                <div class="wheel-pointer-gold"></div>
-                <div class="wheel-wrapper">
-                    <canvas id="wheelCanvas" width="440" height="440"></canvas>
-                    <div id="spin-btn" class="center-star-btn">SPIN</div>
-                </div>
-            </div>
-        </section>
+        <!-- Form -->
+        <form id="registration-form" novalidate>
+          <div class="form-grid">
 
-        <section id="result-section" class="hidden">
-            <div class="result-card">
-                <h3>ยินดีด้วย! คุณได้รับ</h3>
-                <h1 id="prize-name">...</h1>
-                <p>โปรดแจ้งทีมงานเพื่อรับรางวัล</p>
-                <button id="finish-btn" class="btn-gold-submit">เสร็จสิ้น (ไปหน้า LINE)</button>
+            <!-- ชื่อ -->
+            <div class="form-group">
+              <label class="form-label" for="field-firstName">
+                ชื่อ <span class="required">*</span>
+              </label>
+              <input
+                id="field-firstName"
+                name="firstName"
+                type="text"
+                class="form-input"
+                placeholder="ชื่อจริง"
+                autocomplete="given-name"
+                required
+              />
+              <span id="error-firstName" class="field-error"></span>
             </div>
-        </section>
-    </div>
-    <script src="script.js"></script>
+
+            <!-- นามสกุล -->
+            <div class="form-group">
+              <label class="form-label" for="field-lastName">
+                นามสกุล <span class="required">*</span>
+              </label>
+              <input
+                id="field-lastName"
+                name="lastName"
+                type="text"
+                class="form-input"
+                placeholder="นามสกุล"
+                autocomplete="family-name"
+                required
+              />
+              <span id="error-lastName" class="field-error"></span>
+            </div>
+
+            <!-- อีเมล -->
+            <div class="form-group full-width">
+              <label class="form-label" for="field-email">
+                อีเมล <span class="required">*</span>
+              </label>
+              <input
+                id="field-email"
+                name="email"
+                type="email"
+                class="form-input"
+                placeholder="example@company.com"
+                autocomplete="email"
+                required
+              />
+              <span id="error-email" class="field-error"></span>
+            </div>
+
+            <!-- เบอร์โทร -->
+            <div class="form-group">
+              <label class="form-label" for="field-phone">
+                เบอร์โทร <span class="required">*</span>
+              </label>
+              <input
+                id="field-phone"
+                name="phone"
+                type="tel"
+                class="form-input"
+                placeholder="0812345678"
+                autocomplete="tel"
+                inputmode="numeric"
+                maxlength="10"
+                required
+              />
+              <span id="error-phone" class="field-error"></span>
+            </div>
+
+            <!-- ตำแหน่ง -->
+            <div class="form-group">
+              <label class="form-label" for="field-position">
+                ตำแหน่ง <span class="required">*</span>
+              </label>
+              <input
+                id="field-position"
+                name="position"
+                type="text"
+                class="form-input"
+                placeholder="Engineer / Manager"
+                required
+              />
+              <span id="error-position" class="field-error"></span>
+            </div>
+
+            <!-- บริษัท -->
+            <div class="form-group full-width">
+              <label class="form-label" for="field-company">
+                บริษัท <span class="required">*</span>
+              </label>
+              <input
+                id="field-company"
+                name="company"
+                type="text"
+                class="form-input"
+                placeholder="ชื่อบริษัท / องค์กร"
+                autocomplete="organization"
+                required
+              />
+              <span id="error-company" class="field-error"></span>
+            </div>
+
+          </div><!-- end form-grid -->
+
+          <button type="submit" id="submit-btn" class="btn btn-primary">
+            ถัดไป — หมุนวงล้อ 🎡
+          </button>
+        </form>
+
+      </div>
+    </section>
+
+    <!-- ======================================================
+         PAGE 2: หมุนวงล้อ
+         ====================================================== -->
+    <section id="wheel-section" class="page-section" aria-label="หน้าหมุนวงล้อ">
+      <div class="card" style="max-width:640px;text-align:center;">
+
+        <h2 class="section-title">หมุนเพื่อลุ้นรับรางวัล!</h2>
+        <div class="accent-line"></div>
+        <p class="section-subtitle">กดปุ่มด้านล่างเพื่อหมุนวงล้อ — โชคดีนะครับ 🍀</p>
+
+        <!-- Wheel -->
+        <div class="wheel-container">
+          <!-- Pointer (SVG Arrow) -->
+          <div id="wheel-pointer" class="wheel-pointer">
+            <svg width="36" height="40" viewBox="0 0 36 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <polygon points="18,36 2,4 34,4" fill="#ffd700" stroke="#162c3b" stroke-width="2"/>
+            </svg>
+          </div>
+          <!-- Canvas -->
+          <canvas id="wheelCanvas" width="380" height="380" aria-label="วงล้อรางวัล"></canvas>
+        </div>
+
+        <button id="spin-btn" class="btn btn-primary" style="max-width:280px;margin:20px auto 0;">
+          🎯 หมุนวงล้อ!
+        </button>
+
+      </div>
+    </section>
+
+    <!-- ======================================================
+         PAGE 3: ผลรางวัล
+         ====================================================== -->
+    <section id="result-section" class="page-section" aria-label="หน้าผลรางวัล">
+      <div class="card" style="text-align:center;">
+
+        <h2 class="section-title">🎉 ยินดีด้วย!</h2>
+        <div class="accent-line"></div>
+        <p class="section-subtitle">คุณได้รับรางวัล</p>
+
+        <!-- Prize Display -->
+        <div id="result-icon" class="result-icon">🎁</div>
+        <div id="result-prize-name" class="result-prize-name">—</div>
+
+        <!-- Instruction -->
+        <div class="result-instruction">
+          <strong>📱 แสดงหน้าจอนี้ให้ทีมงาน</strong>
+          เพื่อรับของรางวัลของคุณ<br/>
+          ทีมงานจะช่วยจัดเตรียมของรางวัลให้
+        </div>
+
+        <!-- Done Button -->
+        <button id="done-btn" class="btn btn-primary" style="margin-top:28px;">
+          เสร็จสิ้น — เพิ่มเพื่อน LINE 💚
+        </button>
+
+      </div>
+    </section>
+
+  </div><!-- end #app -->
+
+  <!-- Scripts (โหลด Config ก่อน แล้วค่อย Main Script) -->
+  <script src="wheelConfig.js"></script>
+  <script src="script.js"></script>
+
 </body>
 </html>
