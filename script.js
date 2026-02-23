@@ -24,8 +24,10 @@ function getRandomPrize() {
 }
 
 // 2. จัดการการลงทะเบียน
-document.getElementById('reg-form').addEventListener('submit', (e) => {
-    e.preventDefault();
+document.getElementById('reg-form').addEventListener('submit', function(e) {
+    e.preventDefault(); // สำคัญมาก: ป้องกันหน้าจอรีเฟรชเอง
+    
+    // เก็บข้อมูลลงตัวแปร
     userData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -34,8 +36,12 @@ document.getElementById('reg-form').addEventListener('submit', (e) => {
         company: document.getElementById('company').value,
         position: document.getElementById('position').value
     };
+
+    // เปลี่ยนหน้าทันที (ไม่ต้องรอส่งข้อมูลเสร็จ เพื่อความลื่นไหล)
     document.getElementById('form-section').classList.add('hidden');
     document.getElementById('game-section').classList.remove('hidden');
+    
+    // วาดวงล้อรอไว้
     drawWheel();
 });
 
