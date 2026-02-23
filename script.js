@@ -247,22 +247,25 @@
       ctx.translate(cx, cy);
       ctx.rotate(midAngle);
 
-      const textR = r * 0.64;
+      // textR = ระยะจากจุดศูนย์กลางถึงตำแหน่งข้อความ
+      // ลดจาก 0.64 เป็น 0.55 → ข้อความร่นเข้ามาจากขอบมากขึ้น
+      const textR = r * (cfg.textRadiusRatio || 0.55);
       ctx.textAlign = 'right';
       ctx.fillStyle = seg.textColor || '#ffffff';
       ctx.font = `600 ${cfg.fontSize}px ${cfg.fontFamily}`;
       ctx.shadowColor = 'rgba(0,0,0,0.4)';
       ctx.shadowBlur = 4;
 
-      // Icon
+      // Icon — วางก่อนข้อความ (ด้านนอก)
       const iconFont = `${cfg.fontSize + 2}px serif`;
       ctx.font = iconFont;
       ctx.fillText(seg.icon, textR + 4, 4);
 
-      // Label (wrap ถ้ายาว)
+      // Label — เว้นระยะจากขอบ (iconGap) ให้ปรับได้
       ctx.font = `600 ${cfg.fontSize}px ${cfg.fontFamily}`;
-      const maxW = textR - 24;
-      wrapText(ctx, seg.label, textR - 22, 0, maxW, cfg.fontSize * 1.3);
+      const iconGap = cfg.iconGap || 28;
+      const maxW = textR - iconGap;
+      wrapText(ctx, seg.label, textR - iconGap, 0, maxW, cfg.fontSize * 1.3);
 
       ctx.restore();
     });
