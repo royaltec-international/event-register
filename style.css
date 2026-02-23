@@ -1,0 +1,74 @@
+:root {
+    --primary-gradient: linear-gradient(135deg, #2e5a73 50%, #162c3b 100%);
+    --accent-color: #ffd700; /* สีทองสำหรับปุ่มและส่วนเน้น */
+    --text-light: #ffffff;
+}
+
+body {
+    font-family: 'Kanit', sans-serif;
+    background: var(--primary-gradient);
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+}
+
+.container {
+    width: 90%;
+    max-width: 500px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-align: center;
+}
+
+.logo-container img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 8px;
+    border: none;
+    font-family: 'Kanit';
+}
+
+.btn-primary, .btn-spin {
+    width: 100%;
+    padding: 15px;
+    margin-top: 20px;
+    border: none;
+    border-radius: 50px;
+    background: var(--accent-color);
+    color: #162c3b;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: transform 0.2s;
+}
+
+.btn-primary:hover { transform: scale(1.05); }
+
+.hidden { display: none; }
+
+/* Wheel Style */
+.wheel-wrapper {
+    position: relative;
+    margin: 30px auto;
+}
+#pointer {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    color: var(--accent-color);
+    z-index: 10;
+}
