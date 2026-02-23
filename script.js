@@ -44,11 +44,28 @@
   // ----------------------------------------------------------
   function init() {
     // ตั้งค่า Logo
-    if (WHEEL_CONFIG.logoUrl && WHEEL_CONFIG.logoUrl !== '') {
-      dom.logoImg.src = WHEEL_CONFIG.logoUrl;
-      dom.logoImg.alt = WHEEL_CONFIG.logoAlt;
-      dom.logoImg.classList.remove('hidden');
-      dom.logoImg.parentElement.querySelector('.logo-placeholder')?.remove();
+    const logoWrapper = document.querySelector('.logo-wrapper');
+    const logoImg = dom.logoImg;
+    const fallback = document.getElementById('logo-fallback');
+
+    const hasLogo = WHEEL_CONFIG.logoUrl &&
+                    WHEEL_CONFIG.logoUrl !== '' &&
+                    !WHEEL_CONFIG.logoUrl.includes('via.placeholder.com') &&
+                    !WHEEL_CONFIG.logoUrl.includes('YOUR_');
+
+    if (hasLogo) {
+      logoImg.alt = WHEEL_CONFIG.logoAlt;
+      logoImg.style.display = 'block';
+      if (fallback) fallback.style.display = 'none';
+
+      logoImg.onerror = function() {
+        logoImg.style.display = 'none';
+        if (fallback) fallback.style.display = 'flex';
+      };
+      logoImg.src = WHEEL_CONFIG.logoUrl;
+    } else {
+      logoImg.style.display = 'none';
+      if (fallback) fallback.style.display = 'none'; // ซ่อนทั้งคู่ถ้ายังไม่ตั้งค่า
     }
 
     // ตั้งค่าจำนวนของรางวัลคงเหลือ
