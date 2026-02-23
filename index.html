@@ -312,19 +312,20 @@
         const APP_CONFIG = {
             // Form field settings
             formFields: [
-                { id: 'firstName', label: 'ชื่อ', type: 'text', required: true, placeholder: 'ป้อนชื่อของคุณ' },
-                { id: 'lastName', label: 'นามสกุล', type: 'text', required: true, placeholder: 'ป้อนนามสกุลของคุณ' },
-                { id: 'email', label: 'อีเมล', type: 'email', required: true, placeholder: 'ป้อนอีเมลของคุณ' },
-                { id: 'phoneNumber', label: 'เบอร์โทร', type: 'tel', required: true, placeholder: 'ป้อนเบอร์โทรศัพท์ของคุณ' },
-                { id: 'company', label: 'บริษัท / หน่วยงาน', type: 'text', required: true, placeholder: 'ป้อนชื่อบริษัท/หน่วยงาน' },
-                { id: 'position', label: 'ตำแหน่ง', type: 'text', required: true, placeholder: 'ป้อนตำแหน่งของคุณ' },
-                {
+                { id: 'firstName', label: 'ชื่อ', type: 'text', required: false, placeholder: 'ป้อนชื่อของคุณ' },
+                { id: 'lastName', label: 'นามสกุล', type: 'text', required: false, placeholder: 'ป้อนนามสกุลของคุณ' },
+                { id: 'email', label: 'อีเมล', type: 'email', required: false, placeholder: 'ป้อนอีเมลของคุณ' },
+                { id: 'phoneNumber', label: 'เบอร์โทร', type: 'tel', required: false, placeholder: 'ป้อนเบอร์โทรศัพท์ของคุณ' },
+                { id: 'company', label: 'บริษัท / หน่วยงาน', type: 'text', required: false, placeholder: 'ป้อนชื่อบริษัท/หน่วยงาน' },
+                { id: 'position', label: 'ตำแหน่ง', type: 'text', required: false, placeholder: 'ป้อนตำแหน่งของคุณ' },
+                /*{
                     id: 'productsOfInterest',
                     label: 'สินค้าที่สนใจ',
                     type: 'checkboxGroup',
                     required: true,
-                    options: ['Panduit', 'Delta', 'Allied Telesis', 'iPRO', 'Eaton', 'Newson Gale', 'Brady']
-                },
+                    options: ['Cable','Industrial Switch']
+                    //options: ['Panduit', 'Delta', 'Allied Telesis', 'iPRO', 'Eaton', 'Newson Gale', 'Brady']
+                },*/
             ],
             // Wheel segment settings
             // text: The text to display on the wheel segment
@@ -332,13 +333,13 @@
             // weight: The probability weight (all set to 1 for equal segments)
             wheelSegments: [
                 { text: 'ไม่ได้รับรางวัล ไว้โอกาสหน้านะคะ', color: '#012169', weight: 1 },
-                //{ text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
-                { text: 'Delta สมุดโน๊ต', color: '#0087DC', weight: 1 },
-               // { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
-               // { text: 'หมวก', color: '#a7cd89', weight: 0.5 },
-                { text: 'ตุ๊กตา', color: '#33647e', weight: 0.2 },
-                //{ text: 'iPRO', color: '#1C1F2A', weight: 0.5 },
-                { text: 'สาย Patch cord', color: '#e06666', weight: 1 }
+                { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
+                { text: 'ร่ม', color: '#0087DC', weight: 0.2 },
+                { text: 'โน๊ตก้อน', color: '#e06666', weight: 1 },
+                { text: 'แผ่นรองเม้าส์', color: '#a7cd89', weight: 0.01 },
+                { text: 'พัดลม', color: '#33647e', weight: 0.2 },
+                { text: 'Belden', color: '#1C1F2A', weight: 1 },
+                { text: 'เครื่องคิดเลข', color: '#e06666', weight: 0.2 }
                 // Removed 'ไม่ได้รางวัล' segment to simplify for single play
             ],
             // Spin duration in milliseconds
