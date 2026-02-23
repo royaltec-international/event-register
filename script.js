@@ -1,34 +1,53 @@
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby-RuV2kNlb7Mp5sNF0IGCxPMBhz-4aAYO-D93DkPrwTslSsVaaVpdTqGA1NJlQ4u2xlA/exec';
 const LINE_LINK = 'https://line.me/R/ti/p/@yourid';
 
-// รายการของรางวัลและค่าน้ำหนัก (Weight) - ตัวเลขยิ่งเยอะ โอกาสออกยิ่งสูง
-const prizes = [
-    { label: "พัดลม", weight: 10 },
-    { label: "ร่ม", weight: 5 },
-    { label: "เครื่องคิดเลข", weight: 10 },
-    { label: "โน๊ตก้อน", weight: 60 },
-    { label: "แผ่นรองเม้าส์", weight: 2 },
-    { label: "ของรางวัล Belden", weight: 18 }
+let userData = {};
+
+// ตั้งค่าของรางวัลและค่าน้ำหนัก (Weight)
+const prizeItems = [
+    { label: "พัดลม", weight: 10, color: "#e74c3c" },
+    { label: "เครื่องคิดเลข", weight: 10, color: "#2ecc71" },
+    { label: "โน๊ตก้อน", weight: 60, color: "#ffffff" },
+    { label: "แผ่นรองเม้าส์", weight: 2, color: "#9b59b6" },
+    { label: "รางวัล Belden", weight: 18, color: "#3498db" }
 ];
 
-let userData = {};
-let currentRotation = 0;
-
-// 1. ฟังก์ชันสุ่มของรางวัลแบบถ่วงน้ำหนัก
-function getRandomPrize() {
-    let totalWeight = prizes.reduce((sum, p) => sum + p.weight, 0);
+// สุ่มแบบถ่วงน้ำหนัก
+function getWeightedPrize() {
+    let totalWeight = prizeItems.reduce((s, i) => s + i.weight, 0);
     let random = Math.random() * totalWeight;
-    for (let prize of prizes) {
-        if (random < prize.weight) return prize;
-        random -= prize.weight;
+    for (let item of prizeItems) {
+        if (random < item.weight) return item;
+        random -= item.weight;
     }
 }
 
-// 2. จัดการการลงทะเบียน
-document.getElementById('reg-form').addEventListener('submit', function(e) {
-    e.preventDefault(); // สำคัญมาก: ป้องกันหน้าจอรีเฟรชเอง
-    
-    // เก็บข้อมูลลงตัวแปร
+// วาดวงล้อ
+const canvas = document.getElementById('wheelCanvas');
+const ctx = canvas.getContext('2d');
+function drawWheel() {
+    const arc = (Math.PI * 2) / prizeItems.length;
+    prizeItems.forEach((item, i) => {
+        const angle = i * arc;
+        ctx.beginPath();
+        ctx.fillStyle = item.color;
+        ctx.moveTo(220, 220);
+        ctx.arc(220, 220, 220, angle, angle + arc);
+        ctx.fill();
+        ctx.save();
+        ctx.translate(220, 220);
+        ctx.rotate(angle + arc / 2);
+        ctx.fillStyle = item.color === "#ffffff" ? "#333" : "#fff";
+        ctx.font = "bold 16px Kanit";
+        ctx.fillText(item.label, 100, 10);
+        ctx.restore();
+    });
+}
+drawWheel();
+
+// จัดการการส่งฟอร์ม
+document.getElementById('reg-form').onsubmit = (e) => {
+    e.preventDefault();
     userData = {
         firstName: document.getElementById('firstName').value,
         lastName: document.getElementById('lastName').value,
@@ -37,71 +56,34 @@ document.getElementById('reg-form').addEventListener('submit', function(e) {
         company: document.getElementById('company').value,
         position: document.getElementById('position').value
     };
-
-    // เปลี่ยนหน้าทันที (ไม่ต้องรอส่งข้อมูลเสร็จ เพื่อความลื่นไหล)
     document.getElementById('form-section').classList.add('hidden');
     document.getElementById('game-section').classList.remove('hidden');
-    
-    // วาดวงล้อรอไว้
-    drawWheel();
-});
+};
 
-// 3. วาดวงล้อ (Canvas)
-function drawWheel() {
-    const canvas = document.getElementById('wheelCanvas');
-    const ctx = canvas.getContext('2d');
-    const arc = (Math.PI * 2) / prizes.length;
+// หมุนวงล้อ
+let spinning = false;
+document.getElementById('spin-btn').onclick = () => {
+    if (spinning) return;
+    spinning = true;
 
-    prizes.forEach((prize, i) => {
-        const angle = i * arc;
-        ctx.beginPath();
-        ctx.fillStyle = i % 2 === 0 ? '#2e5a73' : '#1e3d4f';
-        ctx.moveTo(200, 200);
-        ctx.arc(200, 200, 180, angle, angle + arc);
-        ctx.fill();
-        
-        ctx.save();
-        ctx.translate(200, 200);
-        ctx.rotate(angle + arc / 2);
-        ctx.fillStyle = "white";
-        ctx.fillText(prize.label, 100, 5);
-        ctx.restore();
-    });
-}
+    const prize = getWeightedPrize();
+    const idx = prizeItems.indexOf(prize);
+    const deg = 3600 + (360 - (idx * (360 / prizeItems.length))) - (180 / prizeItems.length);
 
-// 4. การหมุนวงล้อและการส่งข้อมูล
-document.getElementById('spin-btn').addEventListener('click', () => {
-    const selectedPrize = getRandomPrize();
-    userData.prize = selectedPrize.label;
-    
-    const prizeIndex = prizes.indexOf(selectedPrize);
-    const extraSpins = 5 * 360; // หมุน 5 รอบก่อนหยุด
-    const segmentAngle = 360 / prizes.length;
-    const stopAngle = extraSpins + (360 - (prizeIndex * segmentAngle)) - (segmentAngle/2);
+    canvas.style.transform = `rotate(${deg}deg)`;
 
-    const canvas = document.getElementById('wheelCanvas');
-    canvas.style.transition = "transform 4s cubic-bezier(0.15, 0, 0.15, 1)";
-    canvas.style.transform = `rotate(${stopAngle}deg)`;
-
-    // เมื่อหมุนเสร็จ
     setTimeout(async () => {
-        // ส่งข้อมูลไป Google Sheet
+        userData.prize = prize.label;
+        document.getElementById('prize-name').innerText = prize.label;
+        
+        // ส่งข้อมูลเข้า Google Sheet
         try {
-            await fetch(SCRIPT_URL, {
-                method: 'POST',
-                mode: 'no-cors',
-                body: JSON.stringify(userData)
-            });
-        } catch (err) { console.error("Save error", err); }
+            fetch(SCRIPT_URL, { method: 'POST', body: JSON.stringify(userData) });
+        } catch (e) {}
 
-        // แสดงผลลัพธ์
-        document.getElementById('prize-display').innerText = userData.prize;
         document.getElementById('game-section').classList.add('hidden');
         document.getElementById('result-section').classList.remove('hidden');
-    }, 4500);
-});
+    }, 5500);
+};
 
-// 5. ปุ่มเสร็จสิ้น
-document.getElementById('finish-btn').addEventListener('click', () => {
-    window.location.href = LINE_LINK;
-});
+document.getElementById('finish-btn').onclick = () => window.location.href = LINE_LINK;
