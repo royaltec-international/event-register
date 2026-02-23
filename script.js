@@ -150,25 +150,13 @@
   // ----------------------------------------------------------
   //  Form Submit
   // ----------------------------------------------------------
-  async function handleFormSubmit(e) {
+  function handleFormSubmit(e) {
     e.preventDefault();
     if (!validateAll()) return;
 
+    // เก็บข้อมูลไว้ใน state — ส่ง Sheets ครั้งเดียวหลังหมุนได้รางวัลแล้ว
     state.userData = getFormData();
-    dom.submitBtn.disabled = true;
-    dom.submitBtn.innerHTML = '<span class="spinner"></span> กำลังบันทึก...';
-
-    try {
-      // ส่งข้อมูลไปยัง Google Sheets (ยังไม่มีของรางวัล → จะ update อีกครั้งหลังหมุน)
-      await sendToGoogleSheets({ ...state.userData, prize: '', timestamp: new Date().toISOString() });
-      showPage('wheel');
-    } catch (err) {
-      console.error('Submit error:', err);
-      showToast('เกิดข้อผิดพลาด กรุณาลองใหม่อีกครั้ง', 'error');
-    } finally {
-      dom.submitBtn.disabled = false;
-      dom.submitBtn.innerHTML = 'ถัดไป — หมุนวงล้อ 🎡';
-    }
+    showPage('wheel');
   }
 
   // ----------------------------------------------------------
