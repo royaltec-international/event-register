@@ -14,7 +14,7 @@ const WHEEL_CONFIG = {
   // ----------------------------------------------------------
   //  Logo URL — ใส่ link รูปภาพ logo บริษัทที่นี่
   // ----------------------------------------------------------
-  logoUrl: "https://via.placeholder.com/200x80?text=LOGO",
+  logoUrl: "Royaltec_long-Logo -2 blue 2025-02.png",
   logoAlt: "Company Logo",
 
   // ----------------------------------------------------------
