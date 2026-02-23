@@ -9,7 +9,7 @@ const WHEEL_CONFIG = {
   // ----------------------------------------------------------
   //  ลิงก์ LINE เพื่อน — เปลี่ยนเป็น URL จริงก่อน deploy
   // ----------------------------------------------------------
-  lineAddFriendUrl: "https://lin.ee/1VOCxYRc",
+  lineAddFriendUrl: "https://www.facebook.com/RoyaltecThailand",
 
   // ----------------------------------------------------------
   //  Logo URL — ใส่ link รูปภาพ logo บริษัทที่นี่
