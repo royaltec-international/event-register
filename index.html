@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lucky Draw - Belden</title>
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <div class="logo-container">
+            <img src="YOUR_LOGO_URL_HERE" alt="Company Logo" id="main-logo">
+        </div>
+
+        <section id="form-section">
+            <h2>ลงทะเบียนร่วมสนุก</h2>
+            <form id="reg-form">
+                <input type="text" id="firstName" placeholder="ชื่อ" required>
+                <input type="text" id="lastName" placeholder="นามสกุล" required>
+                <input type="email" id="email" placeholder="อีเมล" required>
+                <input type="tel" id="phone" placeholder="เบอร์โทรศัพท์" required>
+                <input type="text" id="company" placeholder="ชื่อบริษัท" required>
+                <input type="text" id="position" placeholder="ตำแหน่ง" required>
+                <button type="submit" class="btn-primary">เข้าสู่หน้าหมุนวงล้อ</button>
+            </form>
+        </section>
+
+        <section id="game-section" class="hidden">
+            <h2>หมุนวงล้อลุ้นโชค</h2>
+            <div class="wheel-wrapper">
+                <canvas id="wheelCanvas" width="400" height="400"></canvas>
+                <div id="pointer">▼</div>
+            </div>
+            <button id="spin-btn" class="btn-spin">หมุนเลย!</button>
+        </section>
+
+        <section id="result-section" class="hidden">
+            <div class="prize-card">
+                <h3>ยินดีด้วย! คุณได้รับ</h3>
+                <h1 id="prize-display">...</h1>
+                <p class="staff-note">โปรดแสดงหน้าจอนี้ให้ทีมงานเพื่อรับของรางวัล</p>
+                <button id="finish-btn" class="btn-primary">เสร็จสิ้น</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
