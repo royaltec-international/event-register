@@ -86,7 +86,7 @@ const WHEEL_CONFIG = {
       quantity: 40,                 // <-- ปรับจำนวน
       color: "#ff6b35",
       textColor: "#ffffff",
-      icon: "🏆"
+      icon: "🔌"
     },
     {
       id: "belden_gift_2",
@@ -95,7 +95,7 @@ const WHEEL_CONFIG = {
       quantity: 18,                 // <-- ปรับจำนวน
       color: "#ff6b35",
       textColor: "#ffffff",
-      icon: "🏆"
+      icon: "🧢"
     }
     // เพิ่มของ Belden เพิ่มเติมได้ที่นี่ เช่น:
     // {
