@@ -175,8 +175,8 @@
   //  Google Sheets (Apps Script)
   // ----------------------------------------------------------
   async function sendToGoogleSheets(payload) {
-    if (!WHEEL_CONFIG.googleScriptUrl || WHEEL_CONFIG.googleScriptUrl.includes('YOUR_SCRIPT_ID')) {
-      console.warn('Google Script URL ยังไม่ได้ตั้งค่า — ข้ามการส่งข้อมูล');
+    if (!WHEEL_CONFIG.googleScriptUrl || WHEEL_CONFIG.googleScriptUrl.includes('AKfycby-RuV2kNlb7Mp5sNF0IGCxPMBhz-4aAYO-D93DkPrwTslSsVaaVpdTqGA1NJlQ4u2xlA')) {
+      console.warn('https://script.google.com/macros/s/AKfycby-RuV2kNlb7Mp5sNF0IGCxPMBhz-4aAYO-D93DkPrwTslSsVaaVpdTqGA1NJlQ4u2xlA/exec');
       return;
     }
 
@@ -397,7 +397,7 @@
   //  Done Button
   // ----------------------------------------------------------
   function handleDone() {
-    window.open(WHEEL_CONFIG.lineAddFriendUrl, '_blank');
+    window.open(WHEEL_CONFIG.lineAddFriendUrl, 'https://lin.ee/1VOCxYRc');
   }
 
   // ----------------------------------------------------------
