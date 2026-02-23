@@ -173,6 +173,7 @@
 
   // ----------------------------------------------------------
   //  Google Sheets (Apps Script)
+  //  ใช้ URLSearchParams แทน FormData — เสถียรกว่ากับ Apps Script
   // ----------------------------------------------------------
   async function sendToGoogleSheets(payload) {
     if (!WHEEL_CONFIG.googleScriptUrl || WHEEL_CONFIG.googleScriptUrl.includes('YOUR_SCRIPT_ID')) {
@@ -180,13 +181,16 @@
       return;
     }
 
-    const formData = new FormData();
-    Object.entries(payload).forEach(([k, v]) => formData.append(k, v));
+    const params = new URLSearchParams();
+    Object.entries(payload).forEach(([k, v]) => params.append(k, v));
 
     await fetch(WHEEL_CONFIG.googleScriptUrl, {
       method: 'POST',
-      body: formData,
-      mode: 'no-cors',   // Apps Script ต้องการ no-cors
+      body: params.toString(),
+      mode: 'no-cors',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
     });
   }
 
