@@ -342,14 +342,22 @@
     const prizeIndex = segments.findIndex(s => s.id === prize.id);
     const arc = (2 * Math.PI) / segCount;
 
-    // Pointer อยู่ด้านบน (−π/2) → คำนวณให้ segment นั้นหยุดที่ pointer
+    // Pointer อยู่ด้านบน = -PI/2
+    // segment[i] มี midAngle = currentAngle + i*arc + arc/2 (จาก drawWheel)
+    // ต้องการให้ midAngle ของ prize หยุดที่ -PI/2
+    // → targetAngle + prizeIndex*arc + arc/2 = -PI/2 + 2PI*N
+    // → targetAngle = -PI/2 - prizeIndex*arc - arc/2 + 2PI*N
     const cfg = WHEEL_CONFIG.spin;
-    const rotations = cfg.minRotations + Math.random() * (cfg.maxRotations - cfg.minRotations);
-    const targetAngle =
-      -(prizeIndex * arc + arc / 2) - (Math.PI / 2) + (2 * Math.PI * rotations);
+    const rotations = cfg.minRotations + Math.floor(Math.random() * (cfg.maxRotations - cfg.minRotations + 1));
+    const baseTarget = -Math.PI / 2 - (prizeIndex * arc) - (arc / 2);
+    // ดึงค่า currentAngle มาใช้ เพื่อให้หมุนต่อจากมุมปัจจุบันได้ถูกต้อง
+    const currentNorm = ((state.currentAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const targetNorm  = ((baseTarget % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+    const diff = ((targetNorm - currentNorm) + 2 * Math.PI) % (2 * Math.PI);
+    const targetAngle = state.currentAngle + diff + (2 * Math.PI * rotations);
 
     spinAnimate(state.currentAngle, targetAngle, cfg.durationMs, () => {
-      state.currentAngle = targetAngle % (2 * Math.PI);
+      state.currentAngle = targetAngle;
       state.isSpinning = false;
       dom.canvas.classList.remove('spinning');
 
