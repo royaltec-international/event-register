@@ -9,7 +9,7 @@ const WHEEL_CONFIG = {
   // ----------------------------------------------------------
   //  ลิงก์ LINE เพื่อน — เปลี่ยนเป็น URL จริงก่อน deploy
   // ----------------------------------------------------------
-  lineAddFriendUrl: "https://line.me/R/ti/p/@YOUR_LINE_ID",
+  lineAddFriendUrl: "https://lin.ee/1VOCxYRc",
 
   // ----------------------------------------------------------
   //  Logo URL — ใส่ link รูปภาพ logo บริษัทที่นี่
@@ -21,7 +21,7 @@ const WHEEL_CONFIG = {
   //  Google Apps Script Web App URL
   //  วิธีได้ URL: Extensions → Apps Script → Deploy → Web App
   // ----------------------------------------------------------
-  googleScriptUrl: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec",
+  googleScriptUrl: "https://script.google.com/macros/s/AKfycbycrbcoYk7emRUW6bV-fPR0lb7r-KV23MbPfXXeFLlESIHZx3RFZ4xZsa8-sNuIom-aSg/exec",
 
   // ----------------------------------------------------------
   //  ของรางวัล
