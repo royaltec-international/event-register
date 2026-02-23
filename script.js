@@ -4,6 +4,7 @@ const LINE_LINK = 'https://line.me/R/ti/p/@yourid';
 // รายการของรางวัลและค่าน้ำหนัก (Weight) - ตัวเลขยิ่งเยอะ โอกาสออกยิ่งสูง
 const prizes = [
     { label: "พัดลม", weight: 10 },
+    { label: "ร่ม", weight: 5 },
     { label: "เครื่องคิดเลข", weight: 10 },
     { label: "โน๊ตก้อน", weight: 60 },
     { label: "แผ่นรองเม้าส์", weight: 2 },
