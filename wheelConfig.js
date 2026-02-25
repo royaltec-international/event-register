@@ -51,8 +51,8 @@ const WHEEL_CONFIG = {
     {
       id: "fan",
       label: "พัดลม",
-      weight: 18,
-      quantity: 10,
+      weight: 5,
+      quantity: 7,
       color: "#43aa8b",
       textColor: "#ffffff",
       icon: "🌀"
