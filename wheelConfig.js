@@ -34,7 +34,7 @@ const WHEEL_CONFIG = {
       id: "notepad",
       label: "โน๊ตก้อน",
       weight: 50,        // ออกบ่อยสุด เพราะมี 60 อัน
-      quantity: 60,
+      quantity: 55,
       color: "#f9c74f",
       textColor: "#1a1a2e",
       icon: "📓"
@@ -42,8 +42,8 @@ const WHEEL_CONFIG = {
     {
       id: "calculator",
       label: "เครื่องคิดเลข",
-      weight: 18,
-      quantity: 10,
+      weight: 12,
+      quantity: 6,
       color: "#4cc9f0",
       textColor: "#1a1a2e",
       icon: "🧮"
@@ -68,7 +68,7 @@ const WHEEL_CONFIG = {
     },
     {
       id: "special",
-      label: "ร่วม",           // หมายถึง "ของรางวัลร่วม" (ร่วม 5 อัน)
+      label: "ร่ม",           // หมายถึง "ของรางวัลร่วม" (ร่วม 5 อัน)
       weight: 6,
       quantity: 5,
       color: "#9b5de5",
