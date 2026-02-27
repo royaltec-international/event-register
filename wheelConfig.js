@@ -42,7 +42,7 @@ const WHEEL_CONFIG = {
     {
       id: "calculator",
       label: "เครื่องคิดเลข",
-      weight: 12,
+      weight: 1,
       quantity: 6,
       color: "#4cc9f0",
       textColor: "#1a1a2e",
@@ -51,7 +51,7 @@ const WHEEL_CONFIG = {
     {
       id: "fan",
       label: "พัดลม",
-      weight: 5,
+      weight: 2,
       quantity: 7,
       color: "#43aa8b",
       textColor: "#ffffff",
@@ -69,7 +69,7 @@ const WHEEL_CONFIG = {
     {
       id: "special",
       label: "ร่ม",           // หมายถึง "ของรางวัลร่วม" (ร่วม 5 อัน)
-      weight: 6,
+      weight: 2,
       quantity: 5,
       color: "#9b5de5",
       textColor: "#ffffff",
@@ -88,7 +88,7 @@ const WHEEL_CONFIG = {
       textColor: "#ffffff",
       icon: "🔌"
     },
-    {
+    /*{
       id: "belden_gift_2",
       label: "หมวก Belden",   // <-- เปลี่ยนชื่อของรางวัล
       weight: 15,                    // <-- ปรับน้ำหนัก
@@ -96,7 +96,7 @@ const WHEEL_CONFIG = {
       color: "#ff6b35",
       textColor: "#ffffff",
       icon: "🧢"
-    }
+    }*/
     // เพิ่มของ Belden เพิ่มเติมได้ที่นี่ เช่น:
     // {
     //   id: "belden_gift_2",
