@@ -43,7 +43,7 @@ const WHEEL_CONFIG = {
       id: "calculator",
       label: "เครื่องคิดเลข",
       weight: 1,
-      quantity: 6,
+      quantity: 2,
       color: "#4cc9f0",
       textColor: "#1a1a2e",
       icon: "🧮"
@@ -52,12 +52,12 @@ const WHEEL_CONFIG = {
       id: "fan",
       label: "พัดลม",
       weight: 2,
-      quantity: 7,
+      quantity: 4,
       color: "#43aa8b",
       textColor: "#ffffff",
       icon: "🌀"
     },
-    {
+    /*{
       id: "mousepad",
       label: "แผ่นรองเม้าส์",
       weight: 4,         // ออกน้อย เพราะมีแค่ 2 อัน
@@ -65,12 +65,12 @@ const WHEEL_CONFIG = {
       color: "#f94144",
       textColor: "#ffffff",
       icon: "🖱️"
-    },
+    },*/
     {
       id: "special",
       label: "ร่ม",           // หมายถึง "ของรางวัลร่วม" (ร่วม 5 อัน)
-      weight: 2,
-      quantity: 5,
+      weight: 0.5,
+      quantity: 2,
       color: "#9b5de5",
       textColor: "#ffffff",
       icon: "🎁"
